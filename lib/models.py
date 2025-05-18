@@ -3,7 +3,6 @@ import sys
 
 sys.path.append(os.getcwd())
 
-
 from datetime import datetime
 
 from sqlalchemy import create_engine, desc
@@ -18,10 +17,13 @@ Base = declarative_base()
 
 class Student(Base):
     __tablename__ = 'students'
+    __table_args__ = (
+        CheckConstraint('grade BETWEEN 1 AND 12', name='grade_between_1_and_12'),
+    )
 
     id = Column(Integer(), primary_key=True)
     name = Column(String(), index=True)
-    email = Column(String(55))
+    email_address = Column(String(55))
     grade = Column(Integer())
     birthday = Column(DateTime())
     enrolled_date = Column(DateTime(), default=datetime.now())
